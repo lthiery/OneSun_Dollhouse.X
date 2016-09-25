@@ -3,12 +3,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _TRISA `Vuc ~T0 @X0 0 e@140 ]
 "981
 [v _TRISC `Vuc ~T0 @X0 0 e@142 ]
-"7697
-[v _RC4 `Vb ~T0 @X0 0 e@116 ]
-"2262
-[v _ANSELA `Vuc ~T0 @X0 0 e@396 ]
-"2308
-[v _ANSELC `Vuc ~T0 @X0 0 e@398 ]
 [; ;htc.h: 26: extern const char __xc8_OPTIM_SPEED;
 [; ;htc.h: 28: extern double __fpnormalize(double);
 [; ;xc8debug.h: 14: extern void __builtin_software_breakpoint(void);
@@ -2854,24 +2848,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;user.c: 30: TRISA = ~(~TRISC | 0b010000);
 "30
 [e = _TRISA -> ~ | ~ -> _TRISC `i -> 16 `i `uc ]
-[; ;user.c: 31: TRISC = ~(~TRISC | 0b110000);
+[; ;user.c: 31: TRISC = ~(~TRISC | 0b100000);
 "31
-[e = _TRISC -> ~ | ~ -> _TRISC `i -> 48 `i `uc ]
-[; ;user.c: 33: RC4 = 1;
-"33
-[e = _RC4 -> -> 1 `i `b ]
-[; ;user.c: 35: TRISA |= 0b110;
-"35
-[e =| _TRISA -> -> 6 `i `uc ]
-[; ;user.c: 36: ANSELA |= 0b110;
-"36
-[e =| _ANSELA -> -> 6 `i `uc ]
-[; ;user.c: 38: TRISC |= 0b1100;
-"38
-[e =| _TRISC -> -> 12 `i `uc ]
-[; ;user.c: 39: ANSELC |= 0b1100;
-"39
-[e =| _ANSELC -> -> 12 `i `uc ]
+[e = _TRISC -> ~ | ~ -> _TRISC `i -> 32 `i `uc ]
 [; ;user.c: 47: }
 "47
 [e :UE 342 ]

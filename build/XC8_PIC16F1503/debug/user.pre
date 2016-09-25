@@ -3880,15 +3880,7 @@ void InitApp(void)
 {
 
 TRISA = ~(~TRISC | 0b010000);
-TRISC = ~(~TRISC | 0b110000);
-
-RC4 = 1;
-
-TRISA |= 0b110;
-ANSELA |= 0b110;
-
-TRISC |= 0b1100;
-ANSELC |= 0b1100;
+TRISC = ~(~TRISC | 0b100000);
 
 # 47
 }

@@ -3,7 +3,7 @@
 /******************************************************************************/
 
 // CONFIG1
-#pragma config FOSC = INTOSC       // Oscillator Selection Bits (ECH, External Clock, High Power Mode (4-20 MHz): device clock supplied to CLKIN pin)
+#pragma config FOSC = INTOSC    // Oscillator Selection Bits (ECH, External Clock, High Power Mode (4-20 MHz): device clock supplied to CLKIN pin)
 #pragma config WDTE = ON        // Watchdog Timer Enable (WDT enabled)
 #pragma config PWRTE = OFF      // Power-up Timer Enable (PWRT disabled)
 #pragma config MCLRE = ON       // MCLR Pin Function Select (MCLR/VPP pin function is MCLR)
@@ -38,25 +38,110 @@
 /* User Global Variable Declaration                                           */
 /******************************************************************************/
 
-/* i.e. uint8_t <variable_name>; */
+void configureADC(void);
+void selectADC(uint8_t channel);
+void convertADC(void);
+bool completeADC(void);
+uint16_t getResultADC();
+void InitNCO();
+uint16_t avg(uint16_t * samples);
 
+#define MPPT_STEP   0xF
+
+#define NUM_ADC_SAMPLES         16  //ADC is 10-bit and we are using 16-bit variable to store
+
+#define NUM_SAMPLES             8   //NUM_SAMPLES is 2^N
+#define AVG_SAMPLES_SHIFT       3   //so avg samples with shift of N bits
+
+#define VIN_CHANNEL             2
+#define IIN_CHANNEL             6
+
+#define VOUT_CHANNEL            
+#define IOUT_CHANNEL            
+
+uint16_t vin_samples[NUM_SAMPLES];
+uint16_t iin_samples[NUM_SAMPLES];
+uint8_t sample_pointer=0;
+    
+uint16_t curPV = 0;
+uint16_t curPI = 0;
+int32_t curFreq = 0x0;
 /******************************************************************************/
 /* Main Program                                                               */
 /******************************************************************************/
+void main(void)
+{
+    /* Configure the oscillator for the device */
+    ConfigureOscillator();
 
-void selectADC_IntOsc(){
-    ADCON1 |= (0b111 <<4);
+    /* Initialize I/O and Peripherals for application */
+    InitApp();
+    InitNCO();
+    configureADC();
+    
+    RC5=0;
+    CLRWDT();
+    __delay_ms(1000);
+    CLRWDT();
+    __delay_ms(1000);
+
+        
+    while(1)
+    {
+        CLRWDT();
+        
+        curPV=0;
+        curPI=0;
+        for(uint8_t i=0; i<NUM_ADC_SAMPLES;i++){
+            
+            selectADC(VIN_CHANNEL);
+            convertADC();
+            while(!completeADC());
+            curPV+=getResultADC();
+            
+            selectADC(IIN_CHANNEL);
+            convertADC();
+            while(!completeADC());
+            curPI += getResultADC();
+        }
+ 
+        if((float) avg(&vin_samples)* avg(&iin_samples) > (float) curPV * curPI){
+            RC5=0;
+            if(curFreq-MPPT_STEP>0)         curFreq-=   MPPT_STEP;
+            else                            curFreq=    0;
+
+        }
+        else{
+            RC5=1;
+            if(curFreq+MPPT_STEP<0xFFF)     curFreq+=   MPPT_STEP;
+            else                            curFreq =   0xFFFF;
+        }
+        
+        vin_samples[sample_pointer]=curPV;
+        iin_samples[sample_pointer]=curPI;
+        if(++sample_pointer==NUM_SAMPLES) sample_pointer = 0;
+
+        NCO1INCH = curFreq>>8;
+        NCO1INCL = curFreq&0xFF;
+        __delay_ms(50);
+    }
 }
 
-void selectADC_5VREF(){
-    ADCON1 &= 0b11111000; //clear first 3 bits
+uint16_t avg(uint16_t * samples){
+    uint32_t avg = 0;
+    for(uint8_t i=0; i<NUM_SAMPLES; i++){
+        avg += samples[i];
+    }
+    return avg>>AVG_SAMPLES_SHIFT;
 }
 
+void configureADC(void){
+    ADCON1 = 0b01110000;
+}
 
 void selectADC(uint8_t channel){
     //make sure channel bits smaller than 7
     channel &=  0b111; 
-    
     //clear channel selection bits (ie: ADCONX[7:2])
     ADCON0  &=  (2<<0b000);          
     //set channel selection bits;
@@ -68,49 +153,18 @@ void convertADC(){
 }
 
 bool completeADC(){
-    return (ADCON0>>1)&0b1;
+    return  !((ADCON0>>1)&0b1); //bit 1 is 0 when done
 }
 
 uint16_t getResultADC(){
     return (ADRESH<<2)|(ADRESL>>6);
 }
 
-void main(void)
-{
-    /* Configure the oscillator for the device */
-    //ConfigureOscillator();
-
-    /* Initialize I/O and Peripherals for application */
-    InitApp();
-
-    while(1)
-    {
-        //LED_status=~LED_status;
-        //RC5 = LED_status; //Makes 5th bit of PORTC at Logic High
+void InitNCO(){
+    APFCON |= 0b1;          //make RA4->NC0
  
-        
-        //read RA2 / AN2
-        
-        selectADC_IntOsc();
-        selectADC_5VREF();
-        selectADC(2);
-        
-        convertADC();
-     
-        while(!completeADC);
- 
-        if(getResultADC()>220){
-            RC5=1;
-        }
-        else{
-            RC5=0;
-        }
-         
-        __delay_ms(500);
-        
-         
-         
-         
-    }
+    INTCON |= 0b11000000;   //enabled GIE and PIEI
+    //PIE2 |= 0b100;
+    NCO1CON = 0b11001110;   //
+    NCO1CLK = 0b00;         //select internal clock
 }
-

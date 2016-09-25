@@ -1,14 +1,4 @@
 Version 3.2 HI-TECH Software Intermediate Code
-"932 C:\Program Files (x86)\Microchip\xc8\v1.38\include\pic16f1503.h
-[v _TRISA `Vuc ~T0 @X0 0 e@140 ]
-"981
-[v _TRISC `Vuc ~T0 @X0 0 e@142 ]
-"7697
-[v _RC4 `Vb ~T0 @X0 0 e@116 ]
-"2262
-[v _ANSELA `Vuc ~T0 @X0 0 e@396 ]
-"2308
-[v _ANSELC `Vuc ~T0 @X0 0 e@398 ]
 [; ;htc.h: 26: extern const char __xc8_OPTIM_SPEED;
 [; ;htc.h: 28: extern double __fpnormalize(double);
 [; ;xc8debug.h: 14: extern void __builtin_software_breakpoint(void);
@@ -2842,37 +2832,16 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;stdint.h: 210: typedef int16_t intptr_t;
 [; ;stdint.h: 215: typedef uint16_t uintptr_t;
 [; ;stdbool.h: 12: typedef unsigned char bool;
-[; ;user.h: 13: void InitApp(void);
-"27 user.c
-[v _InitApp `(v ~T0 @X0 1 ef ]
-"28
+[v F2934 `(v ~T0 @X0 1 tf ]
+"23 interrupts.c
+[v _isr `IF2934 ~T0 @X0 1 e ]
+"24
 {
-[; ;user.c: 27: void InitApp(void)
-[; ;user.c: 28: {
-[e :U _InitApp ]
+[; ;interrupts.c: 23: void interrupt isr(void)
+[; ;interrupts.c: 24: {
+[e :U _isr ]
 [f ]
-[; ;user.c: 30: TRISA = ~(~TRISC | 0b010000);
-"30
-[e = _TRISA -> ~ | ~ -> _TRISC `i -> 16 `i `uc ]
-[; ;user.c: 31: TRISC = ~(~TRISC | 0b110000);
-"31
-[e = _TRISC -> ~ | ~ -> _TRISC `i -> 48 `i `uc ]
-[; ;user.c: 33: RC4 = 1;
-"33
-[e = _RC4 -> -> 1 `i `b ]
-[; ;user.c: 35: TRISA |= 0b110;
-"35
-[e =| _TRISA -> -> 6 `i `uc ]
-[; ;user.c: 36: ANSELA |= 0b110;
-"36
-[e =| _ANSELA -> -> 6 `i `uc ]
-[; ;user.c: 38: TRISC |= 0b1100;
-"38
-[e =| _TRISC -> -> 12 `i `uc ]
-[; ;user.c: 39: ANSELC |= 0b1100;
-"39
-[e =| _ANSELC -> -> 12 `i `uc ]
-[; ;user.c: 47: }
-"47
+[; ;interrupts.c: 50: }
+"50
 [e :UE 342 ]
 }

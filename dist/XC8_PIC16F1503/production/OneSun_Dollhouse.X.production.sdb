@@ -7,23 +7,39 @@
 [v ___ftpack __ftpack `(f  1 e 3 0 ]
 "86 C:\Program Files (x86)\Microchip\xc8\v1.38\sources\common\ftadd.c
 [v ___ftadd __ftadd `(f  1 e 3 0 ]
+"4 C:\Program Files (x86)\Microchip\xc8\v1.38\sources\common\ftge.c
+[v ___ftge __ftge `(b  1 e 0 0 ]
+"62 C:\Program Files (x86)\Microchip\xc8\v1.38\sources\common\ftmul.c
+[v ___ftmul __ftmul `(f  1 e 3 0 ]
+"28 C:\Program Files (x86)\Microchip\xc8\v1.38\sources\common\lwtoft.c
+[v ___lwtoft __lwtoft `(f  1 e 3 0 ]
 "23 C:\Users\Louis\MPLABXProjects\OneSun_Dollhouse.X\interrupts.c
 [v _isr isr `II(v  1 e 1 0 ]
-"47 C:\Users\Louis\MPLABXProjects\OneSun_Dollhouse.X\main.c
-[v _selectADC_IntOsc selectADC_IntOsc `(v  1 e 1 0 ]
-"51
-[v _selectADC_5VREF selectADC_5VREF `(v  1 e 1 0 ]
-"56
-[v _selectADC selectADC `(v  1 e 1 0 ]
-"66
-[v _convertADC convertADC `(v  1 e 1 0 ]
-"74
-[v _getResultADC getResultADC `(ui  1 e 2 0 ]
-"78
+"68 C:\Users\Louis\MPLABXProjects\OneSun_Dollhouse.X\main.c
 [v _main main `(v  1 e 1 0 ]
+"130
+[v _avg avg `(ui  1 e 2 0 ]
+"138
+[v _configureADC configureADC `(v  1 e 1 0 ]
+"142
+[v _selectADC selectADC `(v  1 e 1 0 ]
+"151
+[v _convertADC convertADC `(v  1 e 1 0 ]
+"155
+[v _completeADC completeADC `(uc  1 e 1 0 ]
+"159
+[v _getResultADC getResultADC `(ui  1 e 2 0 ]
+"163
+[v _InitNCO InitNCO `(v  1 e 1 0 ]
+"18 C:\Users\Louis\MPLABXProjects\OneSun_Dollhouse.X\system.c
+[v _ConfigureOscillator ConfigureOscillator `(v  1 e 1 0 ]
 "27 C:\Users\Louis\MPLABXProjects\OneSun_Dollhouse.X\user.c
 [v _InitApp InitApp `(v  1 e 1 0 ]
-"981 C:\Program Files (x86)\Microchip\xc8\v1.38\include\pic16f1503.h
+"337 C:\Program Files (x86)\Microchip\xc8\v1.38\include\pic16f1503.h
+[v _INTCON INTCON `VEuc  1 e 1 @11 ]
+"932
+[v _TRISA TRISA `VEuc  1 e 1 @140 ]
+"981
 [v _TRISC TRISC `VEuc  1 e 1 @142 ]
 "1438
 [v _ADRESL ADRESL `VEuc  1 e 1 @155 ]
@@ -33,46 +49,133 @@
 [v _ADCON0 ADCON0 `VEuc  1 e 1 @157 ]
 "1555
 [v _ADCON1 ADCON1 `VEuc  1 e 1 @158 ]
+"2218
+[v _APFCON APFCON `VEuc  1 e 1 @285 ]
+"2262
+[v _ANSELA ANSELA `VEuc  1 e 1 @396 ]
+"2308
+[v _ANSELC ANSELC `VEuc  1 e 1 @398 ]
+"3639
+[v _NCO1INCL NCO1INCL `VEuc  1 e 1 @1179 ]
+"3708
+[v _NCO1INCH NCO1INCH `VEuc  1 e 1 @1180 ]
+"3783
+[v _NCO1CON NCO1CON `VEuc  1 e 1 @1182 ]
+"3827
+[v _NCO1CLK NCO1CLK `VEuc  1 e 1 @1183 ]
+"7697
+[v _RC4 RC4 `VEb  1 e 0 @116 ]
 "7699
 [v _RC5 RC5 `VEb  1 e 0 @117 ]
-"78 C:\Users\Louis\MPLABXProjects\OneSun_Dollhouse.X\main.c
+"62 C:\Users\Louis\MPLABXProjects\OneSun_Dollhouse.X\main.c
+[v _vin_samples vin_samples `[8]ui  1 e 16 0 ]
+"63
+[v _iin_samples iin_samples `[8]ui  1 e 16 0 ]
+"64
+[v _sample_pointer sample_pointer `uc  1 e 1 0 ]
+"68
 [v _main main `(v  1 e 1 0 ]
 {
-"115
+"95
+[v main@i i `uc  1 a 1 38 ]
+"87
+[v main@curFreq curFreq `l  1 a 4 39 ]
+"85
+[v main@curPI curPI `ui  1 a 2 36 ]
+"84
+[v main@curPV curPV `ui  1 a 2 34 ]
+"128
 } 0
-"47
-[v _selectADC_IntOsc selectADC_IntOsc `(v  1 e 1 0 ]
-{
-"49
-} 0
-"51
-[v _selectADC_5VREF selectADC_5VREF `(v  1 e 1 0 ]
-{
-"53
-} 0
-"56
+"142
 [v _selectADC selectADC `(v  1 e 1 0 ]
 {
 [v selectADC@channel channel `uc  1 a 1 wreg ]
 [v selectADC@channel channel `uc  1 a 1 wreg ]
-"58
+"144
 [v selectADC@channel channel `uc  1 a 1 3 ]
-"64
+"149
 } 0
-"74
+"159
 [v _getResultADC getResultADC `(ui  1 e 2 0 ]
 {
-"76
+"161
 } 0
-"66
+"151
 [v _convertADC convertADC `(v  1 e 1 0 ]
 {
-"68
+"153
+} 0
+"138
+[v _configureADC configureADC `(v  1 e 1 0 ]
+{
+"140
+} 0
+"155
+[v _completeADC completeADC `(uc  1 e 1 0 ]
+{
+"157
+} 0
+"130
+[v _avg avg `(ui  1 e 2 0 ]
+{
+[v avg@samples samples `*.4ui  1 a 1 wreg ]
+"132
+[v avg@i i `uc  1 a 1 12 ]
+"130
+[v avg@avg avg `ul  1 a 4 7 ]
+[v avg@samples samples `*.4ui  1 a 1 wreg ]
+[v avg@samples samples `*.4ui  1 a 1 11 ]
+"136
+} 0
+"28 C:\Program Files (x86)\Microchip\xc8\v1.38\sources\common\lwtoft.c
+[v ___lwtoft __lwtoft `(f  1 e 3 0 ]
+{
+[v ___lwtoft@c c `ui  1 p 2 0 ]
+"31
+} 0
+"62 C:\Program Files (x86)\Microchip\xc8\v1.38\sources\common\ftmul.c
+[v ___ftmul __ftmul `(f  1 e 3 0 ]
+{
+"65
+[v ___ftmul@f3_as_product f3_as_product `um  1 a 3 15 ]
+"64
+[v ___ftmul@sign sign `uc  1 a 1 19 ]
+[v ___ftmul@cntr cntr `uc  1 a 1 18 ]
+[v ___ftmul@exp exp `uc  1 a 1 14 ]
+"62
+[v ___ftmul@f1 f1 `f  1 p 3 4 ]
+[v ___ftmul@f2 f2 `f  1 p 3 7 ]
+"157
+} 0
+"62 C:\Program Files (x86)\Microchip\xc8\v1.38\sources\common\float.c
+[v ___ftpack __ftpack `(f  1 e 3 0 ]
+{
+[v ___ftpack@arg arg `um  1 p 3 1 ]
+[v ___ftpack@exp exp `uc  1 p 1 4 ]
+[v ___ftpack@sign sign `uc  1 p 1 5 ]
+"86
+} 0
+"4 C:\Program Files (x86)\Microchip\xc8\v1.38\sources\common\ftge.c
+[v ___ftge __ftge `(b  1 e 0 0 ]
+{
+[v ___ftge@ff1 ff1 `f  1 p 3 20 ]
+[v ___ftge@ff2 ff2 `f  1 p 3 23 ]
+"13
+} 0
+"163 C:\Users\Louis\MPLABXProjects\OneSun_Dollhouse.X\main.c
+[v _InitNCO InitNCO `(v  1 e 1 0 ]
+{
+"170
 } 0
 "27 C:\Users\Louis\MPLABXProjects\OneSun_Dollhouse.X\user.c
 [v _InitApp InitApp `(v  1 e 1 0 ]
 {
-"46
+"47
+} 0
+"18 C:\Users\Louis\MPLABXProjects\OneSun_Dollhouse.X\system.c
+[v _ConfigureOscillator ConfigureOscillator `(v  1 e 1 0 ]
+{
+"26
 } 0
 "23 C:\Users\Louis\MPLABXProjects\OneSun_Dollhouse.X\interrupts.c
 [v _isr isr `II(v  1 e 1 0 ]

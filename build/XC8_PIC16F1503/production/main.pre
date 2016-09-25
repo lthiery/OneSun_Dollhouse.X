@@ -3897,20 +3897,99 @@ void ConfigureOscillator(void);
 # 13 "user.h"
 void InitApp(void);
 
-# 47 "main.c"
-void selectADC_IntOsc(){
-ADCON1 |= (0b111 <<4);
+# 41 "main.c"
+void configureADC(void);
+void selectADC(uint8_t channel);
+void convertADC(void);
+bool completeADC(void);
+uint16_t getResultADC();
+void InitNCO();
+uint16_t avg(uint16_t * samples);
+
+# 62
+uint16_t vin_samples[8];
+uint16_t iin_samples[8];
+uint8_t sample_pointer=0;
+
+
+
+void main(void)
+{
+
+ConfigureOscillator();
+
+
+InitApp();
+InitNCO();
+configureADC();
+
+RC5=0;
+asm("clrwdt");
+_delay((unsigned long)((1000)*(800000/4000.0)));
+asm("clrwdt");
+_delay((unsigned long)((1000)*(800000/4000.0)));
+
+uint16_t curPV = 0;
+uint16_t curPI = 0;
+
+int32_t curFreq = 0x0;
+
+while(1)
+{
+asm("clrwdt");
+
+curPV=0;
+curPI=0;
+for(uint8_t i=0; i<16;i++){
+
+selectADC(2);
+convertADC();
+while(!completeADC());
+curPV+=getResultADC();
+
+selectADC(6);
+convertADC();
+while(!completeADC());
+curPI += getResultADC();
 }
 
-void selectADC_5VREF(){
-ADCON1 &= 0b11111000;
+if((float) avg(&vin_samples)* avg(&iin_samples) > (float) curPV * curPI){
+RC5=0;
+if(curFreq-0xF>0) curFreq-= 0xF;
+else curFreq= 0;
+
+}
+else{
+RC5=1;
+if(curFreq+0xF<0xFFF) curFreq+= 0xF;
+else curFreq = 0xFFFF;
 }
 
+vin_samples[sample_pointer]=curPV;
+iin_samples[sample_pointer]=curPI;
+if(++sample_pointer==8) sample_pointer = 0;
+
+NCO1INCH = curFreq>>8;
+NCO1INCL = curFreq&0xFF;
+_delay((unsigned long)((50)*(800000/4000.0)));
+}
+}
+
+uint16_t avg(uint16_t * samples){
+uint32_t avg = 0;
+for(uint8_t i=0; i<8; i++){
+avg += samples[i];
+}
+return avg>>3;
+}
+
+void configureADC(void){
+ADCON1 = 0b01110000;
+}
 
 void selectADC(uint8_t channel){
 
 channel &= 0b111;
-
 
 ADCON0 &= (2<<0b000);
 
@@ -3922,45 +4001,18 @@ ADCON0 |=0b11;
 }
 
 bool completeADC(){
-return (ADCON0>>1)&0b1;
+return !((ADCON0>>1)&0b1);
 }
 
 uint16_t getResultADC(){
 return (ADRESH<<2)|(ADRESL>>6);
 }
 
-void main(void)
-{
+void InitNCO(){
+APFCON |= 0b1;
 
+INTCON |= 0b11000000;
 
-
-
-InitApp();
-
-while(1)
-{
-
-# 94
-selectADC_IntOsc();
-selectADC_5VREF();
-selectADC(2);
-
-convertADC();
-
-while(!completeADC);
-
-if(getResultADC()>220){
-RC5=1;
+NCO1CON = 0b11001110;
+NCO1CLK = 0b00;
 }
-else{
-RC5=0;
-}
-
-_delay((unsigned long)((500)*(800000/4000.0)));
-
-
-
-
-}
-}
-

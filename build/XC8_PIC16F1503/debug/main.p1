@@ -1,14 +1,71 @@
 Version 3.2 HI-TECH Software Intermediate Code
-"932 C:\Program Files (x86)\Microchip\xc8\v1.38\include\pic16f1503.h
-[v _TRISA `Vuc ~T0 @X0 0 e@140 ]
-"981
-[v _TRISC `Vuc ~T0 @X0 0 e@142 ]
-"7697
-[v _RC4 `Vb ~T0 @X0 0 e@116 ]
-"2262
-[v _ANSELA `Vuc ~T0 @X0 0 e@396 ]
-"2308
-[v _ANSELC `Vuc ~T0 @X0 0 e@398 ]
+[p mainexit ]
+"13 user.h
+[v _InitApp `(v ~T0 @X0 0 ef ]
+"47 main.c
+[v _selectADC_IntOsc `(v ~T0 @X0 0 ef ]
+"48
+[v _selectADC_5VREF `(v ~T0 @X0 0 ef ]
+"49
+[v _selectADC `(v ~T0 @X0 0 ef1`uc ]
+"50
+[v _convertADC `(v ~T0 @X0 0 ef ]
+"7699 C:\Program Files (x86)\Microchip\xc8\v1.38\include\pic16f1503.h
+[v _RC5 `Vb ~T0 @X0 0 e@117 ]
+[v F2899 `(v ~T0 @X0 1 tf1`ul ]
+"152 C:\Program Files (x86)\Microchip\xc8\v1.38\include\pic.h
+[v __delay `JF2899 ~T0 @X0 0 e ]
+[p i __delay ]
+"51 main.c
+[v _completeADC `(uc ~T0 @X0 0 ef ]
+"52
+[v _getResultADC `(ui ~T0 @X0 0 ef ]
+"1555 C:\Program Files (x86)\Microchip\xc8\v1.38\include\pic16f1503.h
+[v _ADCON1 `Vuc ~T0 @X0 0 e@158 ]
+"1476
+[v _ADCON0 `Vuc ~T0 @X0 0 e@157 ]
+"1457
+[v _ADRESH `Vuc ~T0 @X0 0 e@156 ]
+"1438
+[v _ADRESL `Vuc ~T0 @X0 0 e@155 ]
+"2218
+[v _APFCON `Vuc ~T0 @X0 0 e@285 ]
+"337
+[v _INTCON `Vuc ~T0 @X0 0 e@11 ]
+"1075
+[v _PIE2 `Vuc ~T0 @X0 0 e@146 ]
+"3783
+[v _NCO1CON `Vuc ~T0 @X0 0 e@1182 ]
+"3827
+[v _NCO1CLK `Vuc ~T0 @X0 0 e@1183 ]
+"3708
+[v _NCO1INCH `Vuc ~T0 @X0 0 e@1180 ]
+"3639
+[v _NCO1INCL `Vuc ~T0 @X0 0 e@1179 ]
+"6 main.c
+[p x FOSC=INTOSC ]
+"7
+[p x WDTE=ON ]
+"8
+[p x PWRTE=OFF ]
+"9
+[p x MCLRE=ON ]
+"10
+[p x CP=OFF ]
+"11
+[p x BOREN=ON ]
+"12
+[p x CLKOUTEN=OFF ]
+"15
+[p x WRT=OFF ]
+"16
+[p x STVREN=ON ]
+"17
+[p x BORV=LO ]
+"18
+[p x LPBOR=OFF ]
+"19
+[p x LVP=ON ]
 [; ;htc.h: 26: extern const char __xc8_OPTIM_SPEED;
 [; ;htc.h: 28: extern double __fpnormalize(double);
 [; ;xc8debug.h: 14: extern void __builtin_software_breakpoint(void);
@@ -2842,37 +2899,217 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;stdint.h: 210: typedef int16_t intptr_t;
 [; ;stdint.h: 215: typedef uint16_t uintptr_t;
 [; ;stdbool.h: 12: typedef unsigned char bool;
+[; ;system.h: 19: void ConfigureOscillator(void);
 [; ;user.h: 13: void InitApp(void);
-"27 user.c
-[v _InitApp `(v ~T0 @X0 1 ef ]
-"28
+[; ;main.c: 47: void selectADC_IntOsc();
+[; ;main.c: 48: void selectADC_5VREF();
+[; ;main.c: 49: void selectADC(uint8_t channel);
+[; ;main.c: 50: void convertADC();
+[; ;main.c: 51: bool completeADC();
+[; ;main.c: 52: uint16_t getResultADC();
+[; ;main.c: 53: void initNCO();
+"55 main.c
+[v _main `(v ~T0 @X0 1 ef ]
+"56
 {
-[; ;user.c: 27: void InitApp(void)
-[; ;user.c: 28: {
-[e :U _InitApp ]
+[; ;main.c: 55: void main(void)
+[; ;main.c: 56: {
+[e :U _main ]
 [f ]
-[; ;user.c: 30: TRISA = ~(~TRISC | 0b010000);
-"30
-[e = _TRISA -> ~ | ~ -> _TRISC `i -> 16 `i `uc ]
-[; ;user.c: 31: TRISC = ~(~TRISC | 0b110000);
-"31
-[e = _TRISC -> ~ | ~ -> _TRISC `i -> 48 `i `uc ]
-[; ;user.c: 33: RC4 = 1;
-"33
-[e = _RC4 -> -> 1 `i `b ]
-[; ;user.c: 35: TRISA |= 0b110;
-"35
-[e =| _TRISA -> -> 6 `i `uc ]
-[; ;user.c: 36: ANSELA |= 0b110;
-"36
-[e =| _ANSELA -> -> 6 `i `uc ]
-[; ;user.c: 38: TRISC |= 0b1100;
-"38
-[e =| _TRISC -> -> 12 `i `uc ]
-[; ;user.c: 39: ANSELC |= 0b1100;
-"39
-[e =| _ANSELC -> -> 12 `i `uc ]
-[; ;user.c: 47: }
-"47
+[; ;main.c: 61: InitApp();
+"61
+[e ( _InitApp ..  ]
+[; ;main.c: 63: while(1)
+"63
+[e :U 344 ]
+[; ;main.c: 64: {
+"64
+{
+[; ;main.c: 71: selectADC_IntOsc();
+"71
+[e ( _selectADC_IntOsc ..  ]
+[; ;main.c: 72: selectADC_5VREF();
+"72
+[e ( _selectADC_5VREF ..  ]
+[; ;main.c: 73: selectADC(2);
+"73
+[e ( _selectADC (1 -> -> 2 `i `uc ]
+[; ;main.c: 75: convertADC();
+"75
+[e ( _convertADC ..  ]
+[; ;main.c: 77: while(!completeADC){
+"77
+[e $U 346  ]
+[e :U 347 ]
+{
+[; ;main.c: 78: RC5=1;
+"78
+[e = _RC5 -> -> 1 `i `b ]
+[; ;main.c: 79: _delay((unsigned long)((100)*(800000/4000.0)));
+"79
+[e ( __delay (1 -> * -> -> 100 `i `d / -> -> 800000 `l `d .4000.0 `ul ]
+[; ;main.c: 80: RC5=0;
+"80
+[e = _RC5 -> -> 0 `i `b ]
+[; ;main.c: 81: _delay((unsigned long)((100)*(800000/4000.0)));
+"81
+[e ( __delay (1 -> * -> -> 100 `i `d / -> -> 800000 `l `d .4000.0 `ul ]
+"82
+}
+[e :U 346 ]
+[v F2946 `(uc ~T0 @X0 1 tf ]
+"77
+[e $ ! != &U _completeADC -> -> 0 `i `*F2946 347  ]
+[e :U 348 ]
+[; ;main.c: 82: }
+[; ;main.c: 85: if(getResultADC()>491){
+"85
+[e $ ! > ( _getResultADC ..  -> -> 491 `i `ui 349  ]
+{
+[; ;main.c: 86: RC5=1;
+"86
+[e = _RC5 -> -> 1 `i `b ]
+"87
+}
+[; ;main.c: 87: }
+[e $U 350  ]
+"88
+[e :U 349 ]
+[; ;main.c: 88: else{
+{
+[; ;main.c: 89: RC5=0;
+"89
+[e = _RC5 -> -> 0 `i `b ]
+"90
+}
+[e :U 350 ]
+"97
+}
+[e :U 343 ]
+"63
+[e $U 344  ]
+[e :U 345 ]
+[; ;main.c: 90: }
+[; ;main.c: 97: }
+[; ;main.c: 98: }
+"98
 [e :UE 342 ]
+}
+"100
+[v _selectADC_IntOsc `(v ~T0 @X0 1 ef ]
+{
+[; ;main.c: 100: void selectADC_IntOsc(){
+[e :U _selectADC_IntOsc ]
+[f ]
+[; ;main.c: 101: ADCON1 |= (0b111 <<4);
+"101
+[e =| _ADCON1 -> << -> 7 `i -> 4 `i `uc ]
+[; ;main.c: 102: }
+"102
+[e :UE 351 ]
+}
+"104
+[v _selectADC_5VREF `(v ~T0 @X0 1 ef ]
+{
+[; ;main.c: 104: void selectADC_5VREF(){
+[e :U _selectADC_5VREF ]
+[f ]
+[; ;main.c: 105: ADCON1 &= 0b11111000;
+"105
+[e =& _ADCON1 -> -> 248 `i `uc ]
+[; ;main.c: 106: }
+"106
+[e :UE 352 ]
+}
+"108
+[v _selectADC `(v ~T0 @X0 1 ef1`uc ]
+{
+[; ;main.c: 108: void selectADC(uint8_t channel){
+[e :U _selectADC ]
+[v _channel `uc ~T0 @X0 1 r1 ]
+[f ]
+[; ;main.c: 110: channel &= 0b111;
+"110
+[e =& _channel -> -> 7 `i `uc ]
+[; ;main.c: 113: ADCON0 &= (2<<0b000);
+"113
+[e =& _ADCON0 -> << -> 2 `i -> 0 `i `uc ]
+[; ;main.c: 115: ADCON0 |= (2<<channel);
+"115
+[e =| _ADCON0 -> << -> 2 `i _channel `uc ]
+[; ;main.c: 116: }
+"116
+[e :UE 353 ]
+}
+"118
+[v _convertADC `(v ~T0 @X0 1 ef ]
+{
+[; ;main.c: 118: void convertADC(){
+[e :U _convertADC ]
+[f ]
+[; ;main.c: 119: ADCON0 |=0b11;
+"119
+[e =| _ADCON0 -> -> 3 `i `uc ]
+[; ;main.c: 120: }
+"120
+[e :UE 354 ]
+}
+"122
+[v _completeADC `(uc ~T0 @X0 1 ef ]
+{
+[; ;main.c: 122: bool completeADC(){
+[e :U _completeADC ]
+[f ]
+[; ;main.c: 123: return (ADCON0>>1)&0b1;
+"123
+[e ) -> & >> -> _ADCON0 `i -> 1 `i -> 1 `i `uc ]
+[e $UE 355  ]
+[; ;main.c: 124: }
+"124
+[e :UE 355 ]
+}
+"126
+[v _getResultADC `(ui ~T0 @X0 1 ef ]
+{
+[; ;main.c: 126: uint16_t getResultADC(){
+[e :U _getResultADC ]
+[f ]
+[; ;main.c: 127: return (ADRESH<<2)|(ADRESL>>6);
+"127
+[e ) -> | << -> _ADRESH `i -> 2 `i >> -> _ADRESL `i -> 6 `i `ui ]
+[e $UE 356  ]
+[; ;main.c: 128: }
+"128
+[e :UE 356 ]
+}
+"130
+[v _initNCO `(v ~T0 @X0 1 ef ]
+{
+[; ;main.c: 130: void initNCO(){
+[e :U _initNCO ]
+[f ]
+[; ;main.c: 131: APFCON |= 0b1;
+"131
+[e =| _APFCON -> -> 1 `i `uc ]
+[; ;main.c: 133: INTCON |= 0b11000000;
+"133
+[e =| _INTCON -> -> 192 `i `uc ]
+[; ;main.c: 134: PIE2 |= 0b100;
+"134
+[e =| _PIE2 -> -> 4 `i `uc ]
+[; ;main.c: 135: NCO1CON = 0b11001110;
+"135
+[e = _NCO1CON -> -> 206 `i `uc ]
+[; ;main.c: 137: NCO1CLK |= 0b00;
+"137
+[e =| _NCO1CLK -> -> 0 `i `uc ]
+[; ;main.c: 139: NCO1INCH = 0x00;
+"139
+[e = _NCO1INCH -> -> 0 `i `uc ]
+[; ;main.c: 140: NCO1INCL = 0xCF;
+"140
+[e = _NCO1INCL -> -> 207 `i `uc ]
+[; ;main.c: 141: }
+"141
+[e :UE 357 ]
 }

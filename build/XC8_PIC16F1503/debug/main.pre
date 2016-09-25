@@ -1,5 +1,24 @@
 
-# 1 "user.c"
+# 1 "main.c"
+
+
+
+
+
+#pragma config FOSC = INTOSC
+#pragma config WDTE = ON
+#pragma config PWRTE = OFF
+#pragma config MCLRE = ON
+#pragma config CP = OFF
+#pragma config BOREN = ON
+#pragma config CLKOUTEN = OFF
+
+
+#pragma config WRT = OFF
+#pragma config STVREN = ON
+#pragma config BORV = LO
+#pragma config LPBOR = OFF
+#pragma config LVP = ON
 
 # 26 "C:\Program Files (x86)\Microchip\xc8\v1.38\include\htc.h"
 extern const char __xc8_OPTIM_SPEED;
@@ -3872,24 +3891,98 @@ typedef uint16_t uintptr_t;
 # 12 "C:\Program Files (x86)\Microchip\xc8\v1.38\include\stdbool.h"
 typedef unsigned char bool;
 
+# 19 "system.h"
+void ConfigureOscillator(void);
+
 # 13 "user.h"
 void InitApp(void);
 
-# 27 "user.c"
-void InitApp(void)
+# 47 "main.c"
+void selectADC_IntOsc();
+void selectADC_5VREF();
+void selectADC(uint8_t channel);
+void convertADC();
+bool completeADC();
+uint16_t getResultADC();
+void initNCO();
+
+void main(void)
 {
 
-TRISA = ~(~TRISC | 0b010000);
-TRISC = ~(~TRISC | 0b110000);
 
-RC4 = 1;
 
-TRISA |= 0b110;
-ANSELA |= 0b110;
 
-TRISC |= 0b1100;
-ANSELC |= 0b1100;
+InitApp();
 
-# 47
+while(1)
+{
+
+# 71
+selectADC_IntOsc();
+selectADC_5VREF();
+selectADC(2);
+
+convertADC();
+
+while(!completeADC){
+RC5=1;
+_delay((unsigned long)((100)*(800000/4000.0)));
+RC5=0;
+_delay((unsigned long)((100)*(800000/4000.0)));
+}
+
+
+if(getResultADC()>491){
+RC5=1;
+}
+else{
+RC5=0;
+}
+
+# 97
+}
+}
+
+void selectADC_IntOsc(){
+ADCON1 |= (0b111 <<4);
+}
+
+void selectADC_5VREF(){
+ADCON1 &= 0b11111000;
+}
+
+void selectADC(uint8_t channel){
+
+channel &= 0b111;
+
+
+ADCON0 &= (2<<0b000);
+
+ADCON0 |= (2<<channel);
+}
+
+void convertADC(){
+ADCON0 |=0b11;
+}
+
+bool completeADC(){
+return (ADCON0>>1)&0b1;
+}
+
+uint16_t getResultADC(){
+return (ADRESH<<2)|(ADRESL>>6);
+}
+
+void initNCO(){
+APFCON |= 0b1;
+
+INTCON |= 0b11000000;
+PIE2 |= 0b100;
+NCO1CON = 0b11001110;
+
+NCO1CLK |= 0b00;
+
+NCO1INCH = 0x00;
+NCO1INCL = 0xCF;
 }
 

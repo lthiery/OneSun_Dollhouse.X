@@ -1,5 +1,5 @@
 
-# 1 "user.c"
+# 1 "interrupts.c"
 
 # 26 "C:\Program Files (x86)\Microchip\xc8\v1.38\include\htc.h"
 extern const char __xc8_OPTIM_SPEED;
@@ -3872,24 +3872,10 @@ typedef uint16_t uintptr_t;
 # 12 "C:\Program Files (x86)\Microchip\xc8\v1.38\include\stdbool.h"
 typedef unsigned char bool;
 
-# 13 "user.h"
-void InitApp(void);
-
-# 27 "user.c"
-void InitApp(void)
+# 23 "interrupts.c"
+void interrupt isr(void)
 {
 
-TRISA = ~(~TRISC | 0b010000);
-TRISC = ~(~TRISC | 0b110000);
-
-RC4 = 1;
-
-TRISA |= 0b110;
-ANSELA |= 0b110;
-
-TRISC |= 0b1100;
-ANSELC |= 0b1100;
-
-# 47
+# 50
 }
 
